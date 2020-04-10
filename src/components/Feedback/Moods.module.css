@@ -1,0 +1,159 @@
+@keyframes opening {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+    transform: translateX(0);
+  }
+}
+
+@keyframes closing {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+    transform: translateX(-100px);
+  }
+}
+
+@keyframes select-middle {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.3);
+  }
+}
+
+@keyframes select-left {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.3);
+    left: calc(50% - 25px);
+  }
+}
+
+@keyframes select-right {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.3);
+    right: calc(50% - 25px);
+  }
+}
+
+@keyframes drop-not-selected {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    display: none;
+    opacity: 0;
+    transform: translateY(200px);
+  }
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  background: none;
+  position: absolute;
+  top: 0;
+
+  padding: 0;
+  outline: none;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.moods {
+  width: 100%;
+  justify-content: space-around;
+  margin: 2rem 0;
+  display: flex;
+  position: relative;
+  align-items: center;
+  min-height: 75px;
+}
+
+.btn[data-position="left"] {
+  left: 25px;
+}
+
+.btn[data-position="right"] {
+  right: 25px;
+}
+
+.btn[data-position="middle"] {
+  left: calc(50% - 25px);
+}
+
+.btn[data-state="opening"] {
+  animation: opening 0.5s forwards;
+}
+
+.btn[data-state="closing"] {
+  animation: closing 0.5s forwards;
+}
+
+.btn[data-state="opened stepTransition"][data-selected="true"][data-position="middle"] {
+  animation: select-middle 0.5s forwards;
+}
+
+.btn[data-state="opened stepTransition"][data-selected="true"][data-position="right"] {
+  animation: select-right 0.5s forwards;
+}
+.btn[data-state="opened stepTransition"][data-selected="true"][data-position="left"] {
+  animation: select-left 0.5s forwards;
+}
+.btn[data-state="opened stepTwo"][data-selected="true"] {
+  transform: scale(1.3);
+}
+.btn[data-state="opened stepTwo"][data-selected="true"][data-position="left"] {
+  left: calc(50% - 25px);
+}
+.btn[data-state="opened stepTwo"][data-selected="true"][data-position="right"] {
+  right: calc(50% - 25px);
+}
+
+.btn[data-state="opened stepTransition"]:not([data-selected="true"]) {
+  animation: drop-not-selected 1s forwards;
+}
+.btn[data-state="opened stepTwo"]:not([data-selected="true"]) {
+  display: none;
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus,
+.btn[data-state="opened stepTwo"] {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.btn span {
+  font-weight: 900;
+  padding: 0.5rem;
+}
+
+.btn svg {
+  background: #e7bf2e;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+
+.btn path {
+  fill: #333;
+}

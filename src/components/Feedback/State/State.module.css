@@ -1,0 +1,34 @@
+.container {
+  background: #282c34;
+  color: #8dd6e4;
+  height: 200px;
+  padding: 0 0 0 1rem;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.header a {
+  color: #217cff;
+}
+
+.header a:visited {
+  color: #a640a4;
+}
+
+.header h2 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #ffce52;
+  margin: 0 0 .25rem 0;
+}
+
+
+.code {
+  margin-top: 0.5rem;
+}
+
+.title {
+  font-weight: 500;
+}

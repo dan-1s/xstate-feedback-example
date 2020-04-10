@@ -1,0 +1,230 @@
+@keyframes opening {
+  0% {
+    opacity: 0;
+    right: 0;
+  }
+
+  100% {
+    opacity: 1;
+    right: calc(50vmax - 250px);
+  }
+}
+
+@keyframes closing {
+  0% {
+    opacity: 1;
+    right: calc(50vmax - 250px);
+  }
+
+  100% {
+    opacity: 0;
+    right: 0;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.container {
+  position: fixed;
+  top: 180px;
+  width: 50vw;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "title title"
+    "moods moods"
+    "text text"
+    "cancel cancel";
+
+  background: #eee;
+  border-radius: 1rem;
+  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (min-width: 900px) {
+  .container {
+    width: 450px;
+  }
+}
+
+.container[data-state="opening"] {
+  animation: opening 0.5s forwards;
+}
+
+.container[data-state="closing"] {
+  animation: closing 0.5s forwards;
+}
+
+.container[data-state^="opened"] {
+  opacity: 1;
+  right: calc(50vmax - 250px);
+}
+
+.container[data-state="opened stepTransition"],
+.container[data-state="opened stepTwo"] {
+  grid-template-areas:
+    "title title"
+    "moods moods"
+    "text text"
+    "cancel submit";
+}
+
+.container[data-state="opened submitting"],
+.container[data-state="opened success"],
+.container[data-state="closing"][data-prev-state="opened submitting"],
+.container[data-state="closing"][data-prev-state="opened success"] {
+  grid-template-areas:
+    "title title"
+    "status status"
+    "cancel cancel";
+}
+
+.container[data-state="opened failure"],
+.container[data-state="closing"][data-prev-state="opened failure"] {
+  grid-template-areas:
+    "title title"
+    "status status"
+    "cancel submit";
+}
+
+.moods {
+  grid-area: moods;
+}
+
+.spinner,
+.success,
+.failure {
+  min-height: 200px;
+  justify-self: center;
+  grid-area: status;
+}
+
+.container[data-state="closed"] {
+  display: none;
+  right: 0;
+}
+
+.container h2 {
+  grid-area: title;
+  box-sizing: border-box;
+
+  width: 100%;
+  padding: 3rem;
+  margin: 0;
+
+  font-size: 1.3rem;
+  color: white;
+
+  background: linear-gradient(-45deg, #38889c, #22515f, #9c4c67, #5f1f42);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  position: relative;
+}
+
+.btn {
+  border: none;
+  background: none;
+  outline: none;
+
+  width: calc(100% - 1rem);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.03rem;
+  justify-self: center;
+}
+
+.btnToggle {
+  position: fixed;
+  top: 180px;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: auto;
+
+  border-radius: .25rem 0 0 .25rem;
+  background: linear-gradient(-45deg, #38889c, #22515f);
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
+}
+
+.btnToggle:hover,
+.btnToggle:focus {
+  background: linear-gradient(-45deg, #3d849a, #1c3b48);
+}
+
+.btnCancel {
+  grid-area: cancel;
+  background: #ccc;
+  margin: 0.5rem;
+}
+
+.btnCancel:hover,
+.btnCancel:focus {
+  background: #bbb;
+}
+
+.btnSubmit,
+.btnRetry {
+  grid-area: submit;
+  display: none;
+  background: #38889c;
+  margin: 0.5rem;
+  color: white;
+}
+
+.btnSubmit:hover,
+.btnSubmit:focus,
+.btnRetry:hover,
+.btnRetry:focus {
+  background: #2b6575;
+}
+
+.container[data-state="opened stepTransition"] .btnCancel,
+.container[data-state="opened stepTransition"] .btnSubmit,
+.container[data-state="opened stepTwo"] .btnCancel,
+.container[data-state="opened stepTwo"] .btnSubmit,
+.container[data-state="opened failure"] .btnRetry {
+  display: block;
+}
+
+.text {
+  grid-area: text;
+  width: 90%;
+  height: 0;
+
+  padding: 0;
+  margin: 0;
+  border: none;
+
+  justify-self: center;
+
+  visibility: hidden;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.text[data-state="opened stepTransition"],
+.text[data-state="opened stepTwo"] {
+  min-height: 100px;
+  transition: min-height 1s;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  visibility: visible;
+}
